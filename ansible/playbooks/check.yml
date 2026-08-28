@@ -1,0 +1,12 @@
+- name: Check CloudMart Nodes Capacity
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Check CPU and RAM
+      shell: |
+        echo "=== CPU ===" && nproc && lscpu | grep "Model"
+        echo "=== RAM ===" && free -h
+        echo "=== K8s Nodes ===" && kubectl get nodes
+        echo "=== Pods ===" && kubectl get pods -A
+      register: result
+    - debug: var=result.stdout_lines

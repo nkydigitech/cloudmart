@@ -1,0 +1,35 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: cloudmart-api
+  namespace: dev
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /products
+spec:
+  rules:
+    - http:
+      paths:
+            - path: /api/products
+        pathType: Prefix
+        backend:
+          service:
+            name: product-service
+            port:
+              number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: cloudmart-frontend
+  namespace: dev
+spec:
+  rules:
+    - http:
+      paths:
+            - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: frontend
+            port:
+              number: 80

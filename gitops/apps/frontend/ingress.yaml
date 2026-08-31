@@ -7,9 +7,9 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /products
 spec:
   rules:
-    - http:
+  - http:
       paths:
-            - path: /api/products
+      - path: /api/products
         pathType: Prefix
         backend:
           service:
@@ -24,9 +24,9 @@ metadata:
   namespace: dev
 spec:
   rules:
-    - http:
+  - http:
       paths:
-            - path: /
+      - path: /
         pathType: Prefix
         backend:
           service:

@@ -197,3 +197,24 @@ CloudMart - GitOps E-Commerce Platform on Kubernetes | Minikube, Docker, ArgoCD,
 ```
 =======
 >>>>>>> Stashed changes
+
+---
+
+## 👩‍💻 About Me
+
+**Nkechi Ahanonye** | **nkydigitech** · she/her
+
+**Cloud & DevOps Engineer** | I turn manual, 3 AM-breaking deployments into 1-min automated pipelines with AWS + Ansible + Terraform
+
+Featured: 15-Module Ansible Project | CloudMart GitOps Project
+
+🔗 **Links:**
+- 📝 Notion Project Doc: [CloudMart DevOps Project](https://app.notion.com/p/CloudMart-DevOps-Cloud-Engineering-Project-3cabda4c72b58094b32ec94ef1a6bb9b)
+- 💼 LinkedIn: [linkedin.com/in/nkechiahanonye](https://www.linkedin.com/in/nkechiahanonye)
+- 🐙 GitHub: [@nkydigitech](https://github.com/nkydigitech)
+
+💡 *Featured: This CloudMart project demonstrates full GitOps E2E - from manual YAML errors to Synced Healthy deployments!*
+
+---
+
+**Connect with me for DevOps mentorship & Cloud projects!**

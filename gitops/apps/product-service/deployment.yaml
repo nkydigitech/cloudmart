@@ -1,90 +1,57 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    deployment.kubernetes.io/revision: "2"
-  creationTimestamp: "2026-08-31T11:10:36Z"
-  generation: 2
-  labels:
-    app: product-service
   name: product-service
   namespace: dev
-  resourceVersion: "4066"
-  uid: 1f5a7737-5905-468c-b08c-9bceab86751f
+  labels:
+    app: product-service
 spec:
-  progressDeadlineSeconds: 600
   replicas: 2
-  revisionHistoryLimit: 10
   selector:
     matchLabels:
       app: product-service
-  strategy:
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
-    type: RollingUpdate
   template:
     metadata:
       labels:
         app: product-service
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8000"
     spec:
       containers:
-      - image: product-service:v1
+            - name: product-service
+        image: product-service:v1
         imagePullPolicy: Never
-        name: product-service
-        resources: {}
-        terminationMessagePath: /dev/termination-log
-        terminationMessagePolicy: File
-      dnsPolicy: ClusterFirst
-      restartPolicy: Always
-      schedulerName: default-scheduler
-      securityContext: {}
-      terminationGracePeriodSeconds: 30
-status:
-  availableReplicas: 2
-  conditions:
-  - lastTransitionTime: "2026-08-31T11:10:41Z"
-    lastUpdateTime: "2026-08-31T11:10:41Z"
-    message: Deployment has minimum availability.
-    reason: MinimumReplicasAvailable
-    status: "True"
-    type: Available
-  - lastTransitionTime: "2026-08-31T11:10:37Z"
-    lastUpdateTime: "2026-08-31T11:10:43Z"
-    message: ReplicaSet "product-service-58fd66f7d8" has successfully progressed.
-    reason: NewReplicaSetAvailable
-    status: "True"
-    type: Progressing
-  observedGeneration: 2
-  readyReplicas: 2
-  replicas: 2
-  terminatingReplicas: 0
-  updatedReplicas: 2
+        ports:
+                - containerPort: 8000
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 5
+        resources:
+          requests:
+            cpu: 50m
+            memory: 64Mi
+          limits:
+            cpu: 200m
+            memory: 128Mi
+---
 apiVersion: v1
 kind: Service
 metadata:
-  creationTimestamp: "2026-08-31T11:10:38Z"
-  labels:
-    app: product-service
   name: product-service
   namespace: dev
-  resourceVersion: "3988"
-  uid: e594a58f-3127-4fc4-8000-1189d627675d
+  labels:
+    app: product-service
 spec:
-  clusterIP: 10.105.27.191
-  clusterIPs:
-  - 10.105.27.191
-  internalTrafficPolicy: Cluster
-  ipFamilies:
-  - IPv4
-  ipFamilyPolicy: SingleStack
-  ports:
-  - port: 80
-    protocol: TCP
-    targetPort: 8000
   selector:
     app: product-service
-  sessionAffinity: None
-  type: ClusterIP
-status:
-  loadBalancer: {}
+  ports:
+    - port: 80
+    targetPort: 8000

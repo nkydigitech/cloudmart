@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 ![CloudMart Banner](docs/banner.png)
 
 # CloudMart 🛒 - GitOps E-Commerce Platform on Kubernetes
@@ -194,3 +195,5 @@ curl http://$(minikube ip)/api/products
 ```
 CloudMart - GitOps E-Commerce Platform on Kubernetes | Minikube, Docker, ArgoCD, NGINX Ingress, FastAPI, Jumia-style UI with real images, Naira prices, Login/Signup | DevOps Phase 1-3 Complete - Full E2E working with 2 replicas, Ingress routing, ArgoCD Synced Healthy
 ```
+=======
+>>>>>>> Stashed changes

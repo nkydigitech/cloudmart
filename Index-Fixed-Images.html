@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CloudMart - GitOps E-Commerce | By Nkechi</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Roboto,Arial,sans-serif}
+body{background:#f5f5f5}
+.top-bar{background:#f68b1e;color:white;padding:6px 0;font-size:12px}
+.top-bar-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;padding:0 16px}
+.header{background:white;box-shadow:0 2px 4px rgba(0,0,0,0.1);position:sticky;top:0;z-index:100}
+.header-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:20px;padding:12px 16px}
+.logo{font-size:28px;font-weight:900;color:#f68b1e} .logo span{color:#000}
+.search-box{flex:1;display:flex;max-width:600px} .search-box input{flex:1;padding:12px 16px;border:1px solid #ddd;border-radius:4px 0 0 4px;outline:none} .search-box button{background:#f68b1e;color:white;border:none;padding:0 24px;border-radius:0 4px 4px 0;font-weight:bold;cursor:pointer}
+.nav-icons{display:flex;gap:20px;align-items:center} .nav-item{display:flex;align-items:center;gap:6px;cursor:pointer;font-size:14px;font-weight:500;position:relative} .nav-item:hover{color:#f68b1e}
+.cart-badge{position:absolute;top:-8px;right:-8px;background:#f68b1e;color:white;border-radius:50%;width:18px;height:18px;font-size:11px;display:flex;align-items:center;justify-content:center}
+.hero{max-width:1200px;margin:16px auto;display:grid;grid-template-columns:1fr 280px;gap:16px;padding:0 16px}
+.flash-sale{background:white;border-radius:4px;padding:16px}
+.flash-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.flash-title h2{color:#f68b1e;font-size:18px}
+.timer{background:#000;color:white;padding:4px 8px;border-radius:4px;font-weight:bold}
+.products-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.product-card{background:white;border-radius:4px;overflow:hidden;cursor:pointer;transition:0.2s;position:relative;border:1px solid #eee}
+.product-card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,0.15)}
+.discount{position:absolute;top:8px;right:8px;background:#feefde;color:#f68b1e;padding:2px 6px;border-radius:2px;font-size:12px;font-weight:bold;z-index:2}
+.product-img-wrap{width:100%;height:180px;background:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
+.product-img{max-width:100%;max-height:100%;object-fit:contain;padding:8px;transition:0.3s}
+.product-card:hover .product-img{transform:scale(1.05)}
+.product-info{padding:10px}
+.product-name{font-size:13px;line-height:1.3;height:34px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.product-price{font-weight:bold;font-size:15px;margin:6px 0 2px;color:#000}
+.product-old-price{font-size:11px;color:#999;text-decoration:line-through}
+.product-rating{display:flex;align-items:center;gap:4px;font-size:11px;color:#75757a;margin-top:4px}
+.stars{color:#f68b1e} .official{background:#def3ff;color:#2766a2;font-size:9px;padding:2px 4px;border-radius:2px;margin-top:4px;display:inline-block}
+.sidebar{display:flex;flex-direction:column;gap:16px}
+.side-card{background:white;border-radius:4px;padding:16px}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center}
+.modal-overlay.active{display:flex}
+.modal{background:white;width:90%;max-width:400px;border-radius:8px;padding:24px;position:relative;animation:slideUp 0.3s}
+@keyframes slideUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+.modal-close{position:absolute;top:12px;right:12px;cursor:pointer;font-size:20px}
+.btn-primary{width:100%;background:#f68b1e;color:white;border:none;padding:12px;border-radius:4px;font-weight:bold;cursor:pointer;margin-top:8px}
+.btn-google{width:100%;background:white;border:1px solid #ddd;padding:10px;border-radius:4px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:10px;font-size:14px}
+.input-group{margin-bottom:12px} .input-group label{display:block;font-size:12px;margin-bottom:4px;color:#555} .input-group input{width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:4px;outline:none}
+.toast{position:fixed;bottom:20px;right:20px;background:#333;color:white;padding:12px 20px;border-radius:4px;display:none;z-index:2000}
+.fallback-bg{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,#fff7ed,#ffedd5);color:#f68b1e;font-weight:bold;font-size:12px;text-align:center;padding:10px}
+@media(max-width:768px){.hero{grid-template-columns:1fr}.products-grid{grid-template-columns:repeat(2,1fr)}.search-box{display:none}}
+</style>
+</head>
+<body>
+<div class="top-bar"><div class="top-bar-inner"><div>★ Sell on CloudMart</div><div>Pay on Delivery | Free Returns | By Nkechi Ahanonye - GitOps Project</div></div></div>
+<div class="header"><div class="header-inner"><div class="logo">Cloud<span>Mart</span></div><div class="search-box"><input id="searchInput" placeholder="Search products, brands and categories"><button onclick="searchProducts()"><i class="fas fa-search"></i> SEARCH</button></div><div class="nav-icons"><div class="nav-item" onclick="openModal('loginModal')"><i class="far fa-user"></i> <span id="accountText">Account</span></div><div class="nav-item" onclick="openCart()"><i class="fas fa-shopping-cart"></i> Cart <span class="cart-badge" id="cartCount">0</span></div></div></div></div>
+<div class="hero"><div class="flash-sale"><div class="flash-header"><div class="flash-title"><h2><i class="fas fa-bolt"></i> Flash Sales</h2></div><div class="timer" id="timer">12:34:56</div><a href="#" style="color:#f68b1e;text-decoration:none;font-size:12px;font-weight:bold;">SEE ALL ></a></div><div class="products-grid" id="products"></div></div><div class="sidebar"><div class="side-card"><h3><i class="fas fa-user-circle"></i> Welcome</h3><p style="font-size:12px;color:#666;margin-bottom:10px" id="welcomeMsg">Login to see orders</p><button class="btn-primary" style="margin:0" onclick="openModal('loginModal')" id="sidebarLoginBtn">LOGIN</button><div id="userPanel" style="display:none;margin-top:10px"><p style="font-size:13px;font-weight:bold" id="userEmailDisplay"></p><button class="btn-primary" style="background:#555;margin-top:8px" onclick="logout()">LOGOUT</button></div></div><div class="side-card"><h3>Top Categories</h3><div style="font-size:12px;line-height:2">📱 Phones & Tablets<br>💻 Computing<br>👗 Fashion<br>🏠 Home & Office<br>🎮 Gaming</div></div></div></div>
+
+<div class="modal-overlay" id="loginModal"><div class="modal"><div class="modal-close" onclick="closeModal('loginModal')">&times;</div><h2>Welcome Back!</h2><div class="input-group"><label>Email</label><input type="email" id="loginEmail" placeholder="nkydigitech@gmail.com"></div><div class="input-group"><label>Password</label><input type="password" id="loginPassword" placeholder="6+ chars"></div><button class="btn-primary" onclick="login()">LOGIN</button><button class="btn-google" onclick="loginWithGoogle()"><img src="https://www.google.com/favicon.ico" width="16"> Login with Google</button><p style="font-size:12px;text-align:center;margin-top:12px">No account? <a href="#" onclick="switchModal('loginModal','signupModal')" style="color:#f68b1e;font-weight:bold;text-decoration:none">Sign Up</a></p></div></div>
+<div class="modal-overlay" id="signupModal"><div class="modal"><div class="modal-close" onclick="closeModal('signupModal')">&times;</div><h2>Create Account</h2><div class="input-group"><label>Full Name</label><input type="text" id="signupName" placeholder="Nkechi Ahanonye"></div><div class="input-group"><label>Email</label><input type="email" id="signupEmail" placeholder="e.g. nkydigitech@gmail.com"></div><div class="input-group"><label>Password</label><input type="password" id="signupPassword" placeholder="6+ chars"></div><button class="btn-primary" onclick="signup()">CREATE ACCOUNT</button><button class="btn-google" onclick="signupWithGoogle()"><img src="https://www.google.com/favicon.ico" width="16"> Sign Up with Google</button><p style="font-size:12px;text-align:center;margin-top:12px">Have account? <a href="#" onclick="switchModal('signupModal','loginModal')" style="color:#f68b1e;font-weight:bold;text-decoration:none">Login</a></p></div></div>
+<div class="modal-overlay" id="cartModal"><div class="modal" style="max-width:480px"><div class="modal-close" onclick="closeModal('cartModal')">&times;</div><h2>Cart (<span id="cartCountModal">0</span>)</h2><div id="cartItems" style="margin:12px 0;max-height:300px;overflow:auto"></div><div style="border-top:1px solid #eee;padding-top:10px;display:flex;justify-content:space-between;font-weight:bold"><span>Total:</span><span id="cartTotal">₦0</span></div><button class="btn-primary" onclick="checkout()">CHECKOUT</button></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+// RELIABLE IMAGES - Multiple CDNs + fallback emoji
+const productsData=[
+{id:1,name:"Apple MacBook Pro 14 M3 Chip 512GB",price:345000,oldPrice:420000,discount:"-18%",rating:4.8,reviews:124,emoji:"💻",color:"#f3f4f6",images:["https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=500&q=80","https://cdn.pixabay.com/photo/2016/10/16/16/33/apple-1746272_640.jpg","https://m.media-amazon.com/images/I/61aUBxqc5PL._AC_UF1000,1000_QL80_.jpg"],official:true},
+{id:2,name:"Samsung Galaxy S24 Ultra 512GB Titanium",price:620000,oldPrice:750000,discount:"-17%",rating:4.7,reviews:89,emoji:"📱",color:"#e0e7ff",images:["https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=500&q=80","https://cdn.pixabay.com/photo/2016/11/20/08/59/iphone-7-1842039_640.jpg"],official:true},
+{id:3,name:"Sony WH-1000XM5 Wireless Headphones",price:185000,oldPrice:220000,discount:"-16%",rating:4.9,reviews:210,emoji:"🎧",color:"#fef3c7",images:["https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=500&q=80","https://cdn.pixabay.com/photo/2018/06/07/15/01/headphones-3357150_640.jpg"],official:true},
+{id:4,name:"Nike Air Jordan 1 Retro High OG",price:95000,oldPrice:120000,discount:"-21%",rating:4.6,reviews:156,emoji:"👟",color:"#fecaca",images:["https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&q=80","https://cdn.pixabay.com/photo/2016/06/03/17/35/shoes-1433920_640.jpg"],official:false},
+{id:5,name:"LG 55 inch 4K UHD Smart TV OLED",price:425000,oldPrice:510000,discount:"-17%",rating:4.5,reviews:78,emoji:"📺",color:"#d1fae5",images:["https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=500&q=80","https://cdn.pixabay.com/photo/2016/11/08/05/18/tv-1808537_640.jpg"],official:true},
+{id:6,name:"Apple iPad Air M2 10.9 inch 256GB",price:285000,oldPrice:340000,discount:"-16%",rating:4.7,reviews:92,emoji:"📱",color:"#e0e7ff",images:["https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=500&q=80","https://cdn.pixabay.com/photo/2015/02/02/11/09/office-606200_640.jpg"],official:true},
+{id:7,name:"PlayStation 5 Console + 2 Controllers",price:380000,oldPrice:450000,discount:"-16%",rating:4.9,reviews:203,emoji:"🎮",color:"#ddd6fe",images:["https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=500&q=80","https://cdn.pixabay.com/photo/2017/08/13/10/05/sony-2638651_640.jpg"],official:true},
+{id:8,name:"Dyson V15 Detect Cordless Vacuum",price:195000,oldPrice:240000,discount:"-19%",rating:4.6,reviews:67,emoji:"🧹",color:"#ffedd5",images:["https://images.unsplash.com/photo-1583422409517-2bb3afb6df34?w=500&q=80","https://cdn.pixabay.com/photo/2017/07/10/19/42/brush-2490835_640.jpg"],official:false}
+];
+
+let cart=JSON.parse(localStorage.getItem('cloudmart_cart')||'[]');
+let user=JSON.parse(localStorage.getItem('cloudmart_user')||'null');
+let imageIndexes={};
+
+function getImageHtml(p){
+  const idx=imageIndexes[p.id]||0;
+  const src=p.images[idx]||p.images[0];
+  return `<div class="product-img-wrap" style="background:${p.color}">
+    <img class="product-img" src="${src}" alt="${p.name}" loading="lazy" 
+      onerror="handleImageError(${p.id}, this)" 
+      onload="this.style.opacity=1" style="opacity:0">
+    <div class="fallback-bg" id="fallback-${p.id}" style="display:none;position:absolute;inset:0">
+      <div style="font-size:48px">${p.emoji}</div>
+      <div style="margin-top:8px">${p.name.substring(0,30)}</div>
+      <div style="font-size:10px;color:#999;margin-top:4px">CloudMart</div>
+    </div>
+  </div>`;
+}
+
+function handleImageError(id, imgEl){
+  const p=productsData.find(x=>x.id===id);
+  let idx=imageIndexes[id]||0;
+  idx++;
+  if(idx < p.images.length){
+    imageIndexes[id]=idx;
+    imgEl.src=p.images[idx];
+  } else {
+    // Show emoji fallback
+    imgEl.style.display='none';
+    document.getElementById(`fallback-${id}`).style.display='flex';
+  }
+}
+
+function renderProducts(filter=''){
+  const grid=document.getElementById('products');
+  const filtered=productsData.filter(p=>p.name.toLowerCase().includes(filter.toLowerCase()));
+  grid.innerHTML=filtered.map(p=>`
+    <div class="product-card" onclick="addToCart(${p.id})">
+      <div class="discount">${p.discount}</div>
+      ${getImageHtml(p)}
+      <div class="product-info">
+        <div class="product-name">${p.name}</div>
+        <div class="product-price">₦${p.price.toLocaleString()}</div>
+        <div class="product-old-price">₦${p.oldPrice.toLocaleString()}</div>
+        <div class="product-rating"><span class="stars">★ ${p.rating}</span> <span>(${p.reviews})</span></div>
+        ${p.official?'<span class="official">Official Store</span>':''}
+      </div>
+    </div>
+  `).join('');
+}
+
+function addToCart(id){const prod=productsData.find(p=>p.id===id);cart.push(prod);localStorage.setItem('cloudmart_cart',JSON.stringify(cart));updateCartCount();showToast(`${prod.name.substring(0,25)}... added`);}
+function updateCartCount(){document.getElementById('cartCount').innerText=cart.length;document.getElementById('cartCountModal').innerText=cart.length;const total=cart.reduce((s,p)=>s+p.price,0);document.getElementById('cartTotal').innerText='₦'+total.toLocaleString();const itemsDiv=document.getElementById('cartItems');if(cart.length===0) itemsDiv.innerHTML='<p style="text-align:center;color:#999;padding:20px">Empty</p>';else itemsDiv.innerHTML=cart.map((p,i)=>`<div style="display:flex;gap:8px;margin-bottom:8px;border-bottom:1px solid #eee;padding-bottom:6px"><div style="width:40px;height:40px;background:${p.color};display:flex;align-items:center;justify-content:center;border-radius:4px">${p.emoji}</div><div style="flex:1;font-size:12px">${p.name.substring(0,30)}<br><b>₦${p.price.toLocaleString()}</b></div><span onclick="removeFromCart(${i})" style="cursor:pointer;color:red"><i class="fas fa-trash"></i></span></div>`).join('');}
+function removeFromCart(i){cart.splice(i,1);localStorage.setItem('cloudmart_cart',JSON.stringify(cart));updateCartCount();}
+function openCart(){updateCartCount();openModal('cartModal');}
+function checkout(){if(cart.length===0)return showToast('Cart empty');if(!user){closeModal('cartModal');openModal('loginModal');return showToast('Login to checkout');}showToast(`Order placed! ₦${cart.reduce((s,p)=>s+p.price,0).toLocaleString()}`);cart=[];localStorage.removeItem('cloudmart_cart');updateCartCount();closeModal('cartModal');}
+function openModal(id){document.getElementById(id).classList.add('active');} function closeModal(id){document.getElementById(id).classList.remove('active');} function switchModal(a,b){closeModal(a);openModal(b);}
+function login(){const email=document.getElementById('loginEmail').value.trim(),pass=document.getElementById('loginPassword').value.trim();if(!email||!pass)return showToast('Enter email & password');const saved=JSON.parse(localStorage.getItem('cloudmart_users')||'[]');const found=saved.find(u=>u.email===email&&u.password===pass);if(saved.length>0&&!found)return showToast('Invalid - Signup first');const loggedUser=found||{name:email.split('@')[0],email};localStorage.setItem('cloudmart_user',JSON.stringify(loggedUser));user=loggedUser;updateUserUI();closeModal('loginModal');showToast(`Welcome ${loggedUser.name}!`);}
+function signup(){const name=document.getElementById('signupName').value.trim(),email=document.getElementById('signupEmail').value.trim(),pass=document.getElementById('signupPassword').value.trim();if(!name||!email||!pass)return showToast('Fill all');if(pass.length<6)return showToast('Password 6+ chars');const users=JSON.parse(localStorage.getItem('cloudmart_users')||'[]');if(users.find(u=>u.email===email))return showToast('Exists - Login');users.push({name,email,password:pass});localStorage.setItem('cloudmart_users',JSON.stringify(users));localStorage.setItem('cloudmart_user',JSON.stringify({name,email}));user={name,email};updateUserUI();closeModal('signupModal');showToast(`Welcome ${name}!`);}
+function loginWithGoogle(){showToast('Google OAuth...');setTimeout(()=>{const gUser={name:'Nkechi Ahanonye',email:'nkydigitech@gmail.com',provider:'google'};localStorage.setItem('cloudmart_user',JSON.stringify(gUser));user=gUser;updateUserUI();closeModal('loginModal');closeModal('signupModal');showToast('Google login ✓');},1000);}
+function signupWithGoogle(){loginWithGoogle();}
+function logout(){localStorage.removeItem('cloudmart_user');user=null;updateUserUI();showToast('Logged out');}
+function updateUserUI(){if(user){document.getElementById('accountText').innerText=user.name.split(' ')[0];document.getElementById('welcomeMsg').innerText=`Hi, ${user.name}!`;document.getElementById('sidebarLoginBtn').style.display='none';document.getElementById('userPanel').style.display='block';document.getElementById('userEmailDisplay').innerText=user.email;}else{document.getElementById('accountText').innerText='Account';document.getElementById('welcomeMsg').innerText='Login to see orders';document.getElementById('sidebarLoginBtn').style.display='block';document.getElementById('userPanel').style.display='none';}}
+function searchProducts(){renderProducts(document.getElementById('searchInput').value);} function showToast(msg){const t=document.getElementById('toast');t.innerText=msg;t.style.display='block';setTimeout(()=>t.style.display='none',3000);}
+let time=45296;setInterval(()=>{time--;const h=Math.floor(time/3600),m=Math.floor((time%3600)/60),s=time%60;document.getElementById('timer').innerText=`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;},1000);
+renderProducts();updateCartCount();updateUserUI();
+document.getElementById('searchInput').addEventListener('input',e=>renderProducts(e.target.value));
+document.querySelectorAll('.modal-overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('active');}));
+// Preload fallback if all images fail
+setTimeout(()=>{document.querySelectorAll('.product-img').forEach((img,i)=>{if(!img.complete||img.naturalWidth===0){const id=productsData[i]?.id; if(id) handleImageError(id, img);}});},3000);
+</script>
+</body>
+</html>

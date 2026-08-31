@@ -3,3 +3,8 @@ terraform/terraform.tfstate.backup
 terraform/.terraform/
 terraform/*.tfplan
 *.tar.gz
+terraform/terraform.tfstate
+terraform/terraform.tfstate.backup
+terraform/.terraform/
+terraform/*.tfplan
+*.tar.gz

@@ -3,10 +3,10 @@ kind: Ingress
 metadata:
   creationTimestamp: "2026-08-31T19:45:15Z"
   generation: 1
-  name: frontend-ingress
+  name: order-service-ingress
   namespace: dev
-  resourceVersion: "2810"
-  uid: 86d013af-c656-403d-89c2-4d08076113ca
+  resourceVersion: "2811"
+  uid: 63ec3b49-2d70-4fad-8997-baec492d1096
 spec:
   ingressClassName: nginx
   rules:
@@ -14,10 +14,10 @@ spec:
       paths:
       - backend:
           service:
-            name: frontend
+            name: order-service
             port:
               number: 80
-        path: /
+        path: /api/orders
         pathType: Exact
 status:
   loadBalancer:

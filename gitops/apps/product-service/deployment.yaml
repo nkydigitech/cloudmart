@@ -19,25 +19,25 @@ spec:
         prometheus.io/port: "8000"
     spec:
       containers:
-            - name: product-service
-        image: product-service:v1
-        imagePullPolicy: Never
-        ports:
-                - containerPort: 8000
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: 8000
-          initialDelaySeconds: 10
-        readinessProbe:
-          httpGet:
-            path: /health
-            port: 8000
-          initialDelaySeconds: 5
-        resources:
-          requests:
-            cpu: 50m
-            memory: 64Mi
+        - name: product-service
+          image: product-service:v1
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8000
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 5
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
           limits:
             cpu: 200m
             memory: 128Mi
@@ -54,4 +54,4 @@ spec:
     app: product-service
   ports:
     - port: 80
-    targetPort: 8000
+      targetPort: 8000

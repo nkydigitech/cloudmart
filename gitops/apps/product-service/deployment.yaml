@@ -45,8 +45,6 @@ kind: Service
 metadata:
   name: product-service
   namespace: dev
-  labels:
-    app: product-service
 spec:
   selector:
     app: product-service

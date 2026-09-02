@@ -65,7 +65,7 @@ Frontend NGINX Jumia UI with real images, Naira prices, Login/Signup modals, Ing
 **Solution:**
 - PostgreSQL 15 as **StatefulSet** postgres-0 1/1 Running (NOT Deployment) - keeps identity & storage
 - PVC postgres-pvc Bound 1Gi RWO standard `pvc-f1d35e0b-7787-437d-a95f-dfcf897d4803` 1Gi
-- Secret postgres-secret password=cloudmart123
+ - Secret postgres-secret - create via: kubectl create secret generic postgres-secret --from-literal=password=<YOUR_PASSWORD> -n dev
 - Order Service FastAPI + psycopg2, python:3.11-slim, auto `CREATE TABLE IF NOT EXISTS orders`, 2 replicas, DB_HOST=postgres-service.dev.svc.cluster.local
 - Ingress updated: `/` → frontend 80, `/api/products` → product-service 80, `/api/orders` → order-service 80
 - **Painful Fix:** postgres slower than order-service → `relation orders does not exist` → added init check + manual psql CREATE
